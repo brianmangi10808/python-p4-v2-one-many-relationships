@@ -1,6 +1,7 @@
 # server/models.py
 
 from flask_sqlalchemy import SQLAlchemy
+
 from sqlalchemy import MetaData
 
 metadata = MetaData(
@@ -18,6 +19,7 @@ class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     hire_date = db.Column(db.Date)
+    reviews = db.relationship('Review', backref="employee")
 
     def __repr__(self):
         return f"<Employee {self.id}, {self.name}, {self.hire_date}>"
@@ -40,6 +42,8 @@ class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     year = db.Column(db.Integer)
     summary = db.Column(db.String)
-
+    employee_id = db.Column(db.Integer, db.ForeignKey('employees.id'))
+    # Relationship mapping the review to related employee
+    
     def __repr__(self):
         return f"<Review {self.id}, {self.year}, {self.summary}>"
